@@ -5,7 +5,6 @@ import AuthLayout from "../components/auth/AuthLayout";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
-import BottomBox from "../components/auth/BottomBox";
 import HeaderContainer from "../components/auth/HeaderContainer";
 import routes from "../routes";
 import { FatLink } from "../components/shared";

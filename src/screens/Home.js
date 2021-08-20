@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { isLoggedInVar, logUserOut, darkModeVar } from "..//apollo";
+import { isLoggedInVar, logUserOut } from "..//apollo";
 import { useReactiveVar, gql, useQuery } from "@apollo/client";
 import { useHistory, Link } from "react-router-dom";
-import useUser from "../useUser";
 import AuthLayout from "../components/auth/AuthLayout";
 
 const Title = styled.h1`
@@ -75,7 +74,6 @@ const PROFILE_QUERY = gql`
 `;
 
 function Home() {
-    const darkMode = useReactiveVar(darkModeVar);
     const isLoggedIn = useReactiveVar(isLoggedInVar);
     const history = useHistory();
     const username = "hibomi97";
