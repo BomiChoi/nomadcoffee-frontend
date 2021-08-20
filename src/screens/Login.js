@@ -18,13 +18,12 @@ import { logUserIn } from "../apollo";
 import { useLocation } from 'react-router-dom';
 
 const FacebookLogin = styled.div`
-  color: #385285;
+  color: ${props => props.theme.facebook};
   span {
     margin-left: 10px;
     font-weight: 600;
   }
 `;
-
 const Notification = styled.div`
   color: #2ecc71;
 `;
@@ -73,7 +72,7 @@ function Login() {
     const { username, password } = getValues();
     login({
       variables: { username, password }
-    })
+    });
   };
   const clearLoginError = () => {
     clearErrors("result")

@@ -13,12 +13,15 @@ import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import { useMutation, gql } from "@apollo/client";
 import { useHistory } from "react-router-dom";
-
+import FormError from "../components/auth/FormError";
 
 const Subtitle = styled(FatLink)`
     font-size: 16px;
     text-align: center;
     margin-top: 10px;
+`;
+const Notification = styled.div`
+  color: tomato;
 `;
 
 const CREATE_ACCOUNT_MUTATION = gql`
@@ -34,12 +37,11 @@ const CREATE_ACCOUNT_MUTATION = gql`
     createAccount(
         username: $username
         email: $email
-        firstName: $firstName
         name: $name
         location: $location
         password: $password
         avatarURL: $avatarURL
-        githubUsername: $username
+        githubUsername: $githubUsername
     ){
         ok
         error
@@ -52,20 +54,27 @@ function SignUp() {
     const onCompleted = (data) => {
         const { username, password } = getValues();
         const { createAccount: { ok, error } } = data;
-        if (!ok) { return; }
-        history.push(routes.home, {
-            message: "Account created. Please log in.",
-            username,
-            password
-        });
-    }
+        if (!ok) {
+            setError("result", {
+                message: error,
+            })
+        } else {
+            history.push(routes.home, {
+                message: "Account created. Please log in.",
+                username,
+                password
+            });
+        }
+    };
     const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, { onCompleted });
     const {
         register,
         handleSubmit,
         errors,
         formState,
-        getValues
+        getValues,
+        setError,
+        clearErrors
     } = useForm({
         mode: "onChange"
     });
@@ -77,6 +86,10 @@ function SignUp() {
             },
         });
     };
+    const clearSignUpError = () => {
+        clearErrors("result")
+    };
+
     return (
         <AuthLayout>
             <PageTitle title="Sign up" />
@@ -87,62 +100,94 @@ function SignUp() {
                         Sign up to see photos and videos from your friends.
                     </Subtitle>
                 </HeaderContainer>
+                <Notification>{errors?.result?.message}</Notification>
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <Input
                         ref={register({
-                            required: "Username is required",
+                            required: "Username is required.",
+                            minLength: {
+                                value: 5,
+                                message: "Username should be longer than 5 chars.",
+                            },
                         })}
-                        type="text"
-                        placeholder="Username"
+                        onChange={clearSignUpError}
                         name="username"
+                        type="text"
+                        placeholder="*Username"
+                        hasError={Boolean(errors?.username?.message)}
                     />
+                    <FormError message={errors?.username?.message} />
+
+                    <Input
+                        ref={register({
+                            required: "Password is required",
+                        })}
+                        onChange={clearSignUpError}
+                        name="password"
+                        type="password"
+                        placeholder="*Password"
+                        hasError={Boolean(errors?.password?.message)}
+                    />
+                    <FormError message={errors?.password?.message} />
+
                     <Input
                         ref={register({
                             required: "Email is required",
                         })}
-                        type="text"
-                        placeholder="Email"
+                        onChange={clearSignUpError}
                         name="email"
+                        type="text"
+                        placeholder="*Email"
+                        hasError={Boolean(errors?.email?.message)}
                     />
+                    <FormError message={errors?.email?.message} />
 
                     <Input
                         ref={register({
                             required: "Name is required",
                         })}
-                        type="text"
-                        placeholder="Name"
+                        onChange={clearSignUpError}
                         name="name"
+                        type="text"
+                        placeholder="*Name"
+                        hasError={Boolean(errors?.name?.message)}
                     />
+                    <FormError message={errors?.name?.message} />
+
                     <Input
                         ref={register({
-                            required: "Location is required",
+                            required: "*Location is required",
                         })}
-                        type="text"
-                        placeholder="Location"
+                        onChange={clearSignUpError}
                         name="location"
+                        type="text"
+                        placeholder="*Location"
+                        hasError={Boolean(errors?.location?.message)}
                     />
+                    <FormError message={errors?.location?.message} />
+
+                    <Input
+                        ref={register}
+                        onChange={clearSignUpError}
+                        name="avatarURL"
+                        type="text"
+                        placeholder="AvatarURL"
+                        hasError={Boolean(errors?.avatarURL?.message)}
+                    />
+                    <FormError message={errors?.avatarURL?.message} />
+
                     <Input
                         ref={register({
                             required: "GithubUsername is required",
                         })}
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                    />
-                    <Input
-                        ref={register}
-                        type="text"
-                        placeholder="AvatarURL"
-                        name="avatarURL"
-                    />
-                    <Input
-                        ref={register({
-                            required: "Password is required",
-                        })}
-                        type="text"
-                        placeholder="githubUsername"
+                        onChange={clearSignUpError}
                         name="githubUsername"
+                        type="text"
+                        placeholder="*GithubUsername"
+                        hasError={Boolean(errors?.githubUsername?.message)}
                     />
+                    <FormError message={errors?.githubUsername?.message} />
+
                     <Button
                         type="submit"
                         value={loading ? "Loading..." : "Sign up"}
