@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import reset from 'styled-reset';
 
 export const lightTheme = {
-  accent: "chocolate",
+  accent: "#CD853F",
   bgColor: "#FAFAFA",
   fontColor: "rgb(38, 38, 38)",
   borderColor: "rgb(219, 219, 219)",
@@ -10,7 +10,7 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  accent: "chocolate",
+  accent: "#CD853F",
   fontColor: "white",
   bgColor: "#2c2c2c",
   borderColor: "rgb(219, 219, 219)",

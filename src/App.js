@@ -1,10 +1,9 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import SignUp from "./screens/SignUp";
 import AddShop from "./screens/AddShop"
 import EditShop from "./screens/EditShop"
-import NotFound from "./screens/NotFound";
 import { isLoggedInVar, darkModeVar } from "./apollo";
 import { ApolloProvider, useReactiveVar } from "@apollo/client";
 import { ThemeProvider } from "styled-components";
@@ -29,7 +28,7 @@ function App() {
               <Route path={routes.signUp}>
                 <SignUp />
               </Route>
-              {isLoggedIn ?
+              {isLoggedIn ? (
                 <>
                   <Route path={routes.add}>
                     <AddShop />
@@ -38,9 +37,11 @@ function App() {
                     <EditShop />
                   </Route>
                 </>
-                : null}
+              ) : null
+              }
               <Route>
-                <NotFound />
+                {/* <NotFound /> */}
+                <Redirect to="/" />
               </Route>
             </Switch>
           </Router>

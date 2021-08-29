@@ -1,12 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMugHot } from '@fortawesome/free-solid-svg-icons'
 import styled from "styled-components";
 import AuthLayout from "../components/auth/AuthLayout";
+import AuthHeader from "../components/auth/AuthHeader";
+import Notification from "../components/Notification";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
 import BottomBox from "../components/auth/BottomBox";
-import HeaderContainer from "../components/auth/HeaderContainer";
 import routes from "../routes";
 import { FatLink } from "../components/shared";
 import PageTitle from "../components/PageTitle";
@@ -19,9 +18,6 @@ const Subtitle = styled(FatLink)`
     font-size: 16px;
     text-align: center;
     margin-top: 10px;
-`;
-const Notification = styled.div`
-  color: tomato;
 `;
 
 const CREATE_ACCOUNT_MUTATION = gql`
@@ -94,13 +90,8 @@ function SignUp() {
         <AuthLayout>
             <PageTitle title="Sign up" />
             <FormBox>
-                <HeaderContainer>
-                    <FontAwesomeIcon icon={faMugHot} size="3x" />
-                    <Subtitle>
-                        Sign up to see photos and videos from your friends.
-                    </Subtitle>
-                </HeaderContainer>
-                <Notification>{errors?.result?.message}</Notification>
+                <AuthHeader subtitle="Sign up to see photos and videos from your friends." />
+                <Notification message={errors?.result?.message} />
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <Input
                         ref={register({

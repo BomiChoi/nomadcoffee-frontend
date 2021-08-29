@@ -1,14 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMugHot } from '@fortawesome/free-solid-svg-icons'
 import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
 import styled from "styled-components";
 import AuthLayout from "../components/auth/AuthLayout";
+import AuthHeader from "../components/auth/AuthHeader";
 import Button from "../components/auth/Button";
 import Separator from "../components/auth/Separator";
 import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
 import BottomBox from "../components/auth/BottomBox";
-import HeaderContainer from "../components/auth/HeaderContainer";
 import routes from "../routes";
 import { useForm } from "react-hook-form";
 import PageTitle from "../components/PageTitle";
@@ -81,10 +80,7 @@ function Login() {
     <AuthLayout>
       <PageTitle title="Login" />
       <FormBox>
-        <HeaderContainer>
-          <FontAwesomeIcon icon={faMugHot} size="3x" />
-          <h1>Nomad Coffee</h1>
-        </HeaderContainer>
+        <AuthHeader />
         <Notification>{location?.state?.message}</Notification>
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input

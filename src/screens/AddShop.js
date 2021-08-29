@@ -1,11 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMugHot } from '@fortawesome/free-solid-svg-icons'
 import styled from "styled-components";
-import AuthLayout from "../components/auth/AuthLayout";
+import Layout from "../components/Layout";
+import Notification from "../components/Notification";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
-import HeaderContainer from "../components/auth/HeaderContainer";
 import routes from "../routes";
 import { FatLink } from "../components/shared";
 import PageTitle from "../components/PageTitle";
@@ -18,9 +16,6 @@ const Subtitle = styled(FatLink)`
     font-size: 16px;
     text-align: center;
     margin-top: 10px;
-`;
-const Notification = styled.div`
-  color: tomato;
 `;
 
 const CREATE_COFFEESHOP_MUTATION = gql`
@@ -79,16 +74,11 @@ function AddShop() {
     };
 
     return (
-        <AuthLayout>
+        <Layout>
             <PageTitle title="Sign up" />
             <FormBox>
-                <HeaderContainer>
-                    <FontAwesomeIcon icon={faMugHot} size="3x" />
-                    <Subtitle>
-                        Add CoffeeShop
-                    </Subtitle>
-                </HeaderContainer>
-                <Notification>{errors?.result?.message}</Notification>
+                <Subtitle>Add CoffeeShop</Subtitle>
+                <Notification message={errors?.result?.message} />
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <Input
                         ref={register({
@@ -145,7 +135,7 @@ function AddShop() {
                     />
                 </form>
             </FormBox>
-        </AuthLayout>
+        </Layout>
     );
 }
 

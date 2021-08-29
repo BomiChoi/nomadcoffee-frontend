@@ -1,28 +1,19 @@
 import styled from "styled-components";
-import { isLoggedInVar, logUserOut } from "..//apollo";
+import { isLoggedInVar } from "../apollo";
 import { useReactiveVar, gql, useQuery } from "@apollo/client";
-import { useHistory, Link } from "react-router-dom";
-import AuthLayout from "../components/auth/AuthLayout";
+import { useLocation, Link } from "react-router-dom";
+import Layout from "../components/Layout";
+import Subtitle from "../components/Subtitle";
+import Notification from "../components/Notification";
+import Loading from "../components/auth/Loading";
+import useUser from "../useUser";
 
-const Title = styled.h1`
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    color: ${props => props.theme.accent};
-`;
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: center;
     margin: 10px;
 `;
-const LogoutBtn = styled.button`
-    background: none;
-    border: 1px solid ${props => props.theme.accent};
-    border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
-    font-weight: bold;
-`;
+
 const AddShop = styled(Link)`
     border: 1px solid ${props => props.theme.accent};
     border-radius: 5px;
@@ -53,10 +44,10 @@ const Shop = styled(Link)`
     div {
         margin: 5px;
     }
-    span {
-        color: ${props => props.theme.accent};
-        font-weight: bold;
-    }
+`;
+const Category = styled.span`
+    color: ${props => props.theme.accent};
+    font-weight: bold;
 `;
 
 const PROFILE_QUERY = gql`
@@ -75,32 +66,42 @@ const PROFILE_QUERY = gql`
 
 function Home() {
     const isLoggedIn = useReactiveVar(isLoggedInVar);
-    const history = useHistory();
-    const username = "hibomi97";
-    const { data } = useQuery(PROFILE_QUERY, {
+    const location = useLocation();
+    const { data: user, loading: userLoading } = useUser();
+    let username = ""
+    if (!userLoading) {
+        // console.log(user.me.username);
+        username = user.me.username;
+    }
+    const { data, loading } = useQuery(PROFILE_QUERY, {
         variables: { username }
     })
     return (
-        <AuthLayout>
-            <Title>Welcome!</Title>
-            <ButtonContainer>
-                <LogoutBtn onClick={() => logUserOut(history)}>Log out now!</LogoutBtn>
-                {isLoggedIn && <AddShop to="/add">Add Coffeeshop</AddShop>}
-            </ButtonContainer>
-            <ShopContainer>
-                {data?.seeProfile?.shops?.map(shop =>
-                    <Shop to={`/shop/${shop.id}`} >
-                        <h3>{shop.name}</h3>
-                        <div>Location: {shop.latitude}, {shop.longitude}</div>
-                        <div>
-                            {shop.categories?.map(category =>
-                                <span>{category.name} </span>
-                            )}
-                        </div>
-                    </Shop>)
-                }
-            </ShopContainer>
-        </AuthLayout>
+        <Layout>
+            <Subtitle>Welcome!</Subtitle>
+            <Notification type="ok" message={location?.state?.message} />
+            {(userLoading || loading) ?
+                <Loading />
+                : <ShopContainer>
+                    {data?.seeProfile?.shops?.map(shop =>
+                        <Shop to={`/shop/${shop.id}`} key={shop.id}>
+                            <h3>{shop.name}</h3>
+                            <div>Location: {shop.latitude}, {shop.longitude}</div>
+                            <div>
+                                {shop.categories?.map(category =>
+                                    <Category key={category.id}>{category.name} </Category>
+                                )}
+                            </div>
+                        </Shop>
+                    )}
+                    {isLoggedIn &&
+                        <Shop to={`/add`}>
+                            <h3>+ Add Shop</h3>
+                        </Shop>
+                    }
+                </ShopContainer>
+            }
+        </Layout>
     );
 }
 
