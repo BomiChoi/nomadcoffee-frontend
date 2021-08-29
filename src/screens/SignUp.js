@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import AuthLayout from "../components/auth/AuthLayout";
 import AuthHeader from "../components/auth/AuthHeader";
 import Notification from "../components/Notification";
@@ -7,7 +6,6 @@ import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
 import BottomBox from "../components/auth/BottomBox";
 import routes from "../routes";
-import { FatLink } from "../components/shared";
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import { useMutation, gql } from "@apollo/client";
