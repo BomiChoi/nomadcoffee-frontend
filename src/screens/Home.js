@@ -8,20 +8,6 @@ import Notification from "../components/Notification";
 import Loading from "../components/auth/Loading";
 import useUser from "../useUser";
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    margin: 10px;
-`;
-
-const AddShop = styled(Link)`
-    border: 1px solid ${props => props.theme.accent};
-    border-radius: 5px;
-    padding: 5px;
-    color: ${props => props.theme.fontColor};
-    margin: 5px;
-    font-weight: bold;
-`;
 const ShopContainer = styled.div`
     margin: 10px;
     display: grid;

@@ -14,12 +14,6 @@ import { useMutation, gql } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import FormError from "../components/auth/FormError";
 
-const Subtitle = styled(FatLink)`
-    font-size: 16px;
-    text-align: center;
-    margin-top: 10px;
-`;
-
 const CREATE_ACCOUNT_MUTATION = gql`
     mutation createAccount(
         $username: String! 
