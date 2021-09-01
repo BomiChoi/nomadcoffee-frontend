@@ -3,9 +3,9 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SAvatar = styled.div`
-  width: 25px;
-  height: 25px;
-  border-radius: 15px;
+  width: ${props => props.lg ? "30px" : "25px"};
+  height: ${props => props.lg ? "30px" : "25px"};
+  border-radius: 50%;
   background-color: ${(props) => props.theme.bgColor};
   overflow: hidden;
   display: flex;
@@ -18,7 +18,7 @@ const Img = styled.img`
   
 `;
 
-function Avatar({ url = "" }) {
-  return <SAvatar>{url !== "" ? <Img src={url} /> : <FontAwesomeIcon icon={faUser} size="lg" />}</SAvatar>;
+function Avatar({ url = "", lg = false }) {
+  return <SAvatar lg={lg}>{url !== "" ? <Img src={url} /> : <FontAwesomeIcon icon={faUser} size="lg" />}</SAvatar>;
 }
 export default Avatar;

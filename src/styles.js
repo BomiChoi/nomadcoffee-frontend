@@ -24,12 +24,14 @@ export const GlobalStyles = createGlobalStyle`
     }
     body {
         background-color: ${props => props.theme.bgColor};
-        font-size:14px;
+        font-size: 14px;
         font-family: 'Nanum Gothic', sans-serif;
+        /* font-family: 'Nanum Pen Script', cursive; */
         color: ${props => props.theme.fontColor};
     }
     input {
       all:unset;
+      font-family: 'Nanum Gothic', sans-serif;
     }
     a {
       all:unset;

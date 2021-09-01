@@ -3,6 +3,7 @@ import { isLoggedInVar } from "../apollo";
 import { useReactiveVar, gql, useQuery } from "@apollo/client";
 import { useLocation, Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import Avatar from "../components/Avatar"
 import Subtitle from "../components/Subtitle";
 import Notification from "../components/Notification";
 import Loading from "../components/auth/Loading";
@@ -10,30 +11,55 @@ import useUser from "../hooks/useUser";
 
 const ShopContainer = styled.div`
     margin: 10px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    grid-gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 const Shop = styled(Link)`
+    display: flex;
+    flex-direction: column;
     border: 1px solid ${props => props.theme.borderColor};
     color: ${props => props.theme.fontColor};
-    border-radius: 5px;
-    padding: 10px;
+    margin: 10px;
     box-sizing: border-box;
     text-align: center;
+    width: 100%;
+    max-width: 615px;
     h3{
-        color: ${props => props.theme.fontColor};
-        font-size: 20px;
+        font-size: 27px;
         color: ${props => props.theme.accent};
         font-weight: bold;
+        font-family: 'Nanum Pen Script', cursive;
     }
-    div {
-        margin: 5px;
-    }
+`;
+const Add = styled(Shop)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+`;
+const ShopHeader = styled.div`
+  padding: 15px;
+  display: flex;
+  align-items: center;
+`;
+const PhotoFile = styled.img`
+  width: 100%;
+`;
+const Row = styled.div`
+    margin-bottom: 10px;
+`;
+const Username = styled.span`
+  margin-left: 15px;
+`;
+const CategoryContainer = styled.div`
+    display: flex;
+    justify-content: center;
 `;
 const Category = styled.span`
     color: ${props => props.theme.accent};
     font-weight: bold;
+    margin: 0 5px;
 `;
 
 const PROFILE_QUERY = gql`
@@ -45,6 +71,13 @@ const PROFILE_QUERY = gql`
                 latitude
                 longitude
                 categories{name}
+                user{
+                    username
+                    avatarURL
+                }
+                photos{
+                    url
+                }
             }
         }
     }
@@ -69,22 +102,33 @@ function Home() {
             {(userLoading || loading) ?
                 <Loading />
                 : <ShopContainer>
+                    {isLoggedIn &&
+                        <Add to={`/add`}>
+                            <h3>+ Add Shop</h3>
+                        </Add>
+                    }
                     {data?.seeProfile?.shops?.map(shop =>
                         <Shop to={`/shop/${shop.id}`} key={shop.id}>
-                            <h3>{shop.name}</h3>
-                            <div>Location: {shop.latitude}, {shop.longitude}</div>
-                            <div>
-                                {shop.categories?.map(category =>
-                                    <Category key={category.id}>{category.name} </Category>
+                            <ShopHeader>
+                                <Avatar lg url={shop.user.avatarURL} />
+                                <Username>{shop.user.username}</Username>
+                            </ShopHeader>
+                            <Row>
+                                {shop.photos?.map(photo =>
+                                    <PhotoFile src={photo.url} />
                                 )}
-                            </div>
+                            </Row>
+                            <Row><h3>{shop.name}</h3></Row>
+                            <Row>Location: {shop.latitude}, {shop.longitude}</Row>
+                            <Row>
+                                <CategoryContainer>
+                                    {shop.categories?.map(category =>
+                                        <Category key={category.name}>{category.name}</Category>
+                                    )}
+                                </CategoryContainer>
+                            </Row>
                         </Shop>
                     )}
-                    {isLoggedIn &&
-                        <Shop to={`/add`}>
-                            <h3>+ Add Shop</h3>
-                        </Shop>
-                    }
                 </ShopContainer>
             }
         </Layout>

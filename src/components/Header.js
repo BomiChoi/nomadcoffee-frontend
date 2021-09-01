@@ -82,7 +82,7 @@ function Header() {
                                 <FontAwesomeIcon icon={faCompass} size="lg" />
                             </Icon>
                             <Icon>
-                                <Avatar url={data?.me?.avatar} />
+                                <Avatar url={data?.me?.avatarURL} />
                             </Icon>
                             <LogoutBtn onClick={() => logUserOut(history)}>Log out</LogoutBtn>
                             <DarkmodeBtn />

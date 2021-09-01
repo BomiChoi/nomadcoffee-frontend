@@ -1,22 +1,15 @@
-import styled from "styled-components";
 import Layout from "../components/Layout";
 import Notification from "../components/Notification";
 import Button from "../components/auth/Button";
 import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
 import routes from "../routes";
-import { FatLink } from "../components/shared";
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import { useMutation, gql } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import FormError from "../components/auth/FormError";
-
-const Subtitle = styled(FatLink)`
-    font-size: 16px;
-    text-align: center;
-    margin-top: 10px;
-`;
+import Subtitle from "../components/Subtitle";
 
 const CREATE_COFFEESHOP_MUTATION = gql`
     mutation createCoffeeShop(

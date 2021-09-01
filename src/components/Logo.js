@@ -11,8 +11,8 @@ const SLink = styled(Link)`
 `;
 const SH1 = styled.h1`
     font-size: 25px;
-        padding-top: 5px;
-        font-family: 'Nanum Pen Script', cursive;
+    padding-top: 5px;
+    font-family: 'Nanum Pen Script', cursive;
 `;
 
 function Logo({ size }) {
