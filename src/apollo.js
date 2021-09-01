@@ -26,8 +26,8 @@ export const disableDarkMode = () => {
 };
 
 const httpLink = createHttpLink({
-    // uri: "https://bomi-nomadcoffee-backend.herokuapp.com/graphql",
-    uri: "http://localhost:4000/graphql",
+    uri: "https://bomi-nomadcoffee-backend.herokuapp.com/graphql",
+    // uri: "http://localhost:4000/graphql",
 });
 const authLink = setContext((_, { headers }) => {
     return {
