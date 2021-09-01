@@ -6,7 +6,7 @@ import Layout from "../components/Layout";
 import Subtitle from "../components/Subtitle";
 import Notification from "../components/Notification";
 import Loading from "../components/auth/Loading";
-import useUser from "../useUser";
+import useUser from "../hooks/useUser";
 
 const ShopContainer = styled.div`
     margin: 10px;

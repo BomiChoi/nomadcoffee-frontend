@@ -1,10 +1,15 @@
 import { useReactiveVar } from "@apollo/client";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { faCompass } from "@fortawesome/free-regular-svg-icons";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { isLoggedInVar, logUserOut } from "../apollo";
 import Logo from "./Logo";
 import { Link, useHistory } from "react-router-dom";
+import Avatar from "./Avatar";
+import useUser from "../hooks/useUser";
+import routes from "../routes";
+import DarkmodeBtn from "./DarkmodeBtn";
 
 const SHeader = styled.header`
   width: 100%;
@@ -40,11 +45,27 @@ const LogoutBtn = styled.button`
     padding: 5px;
     margin: 5px;
     font-weight: bold;
+    color: ${(props) => props.theme.fontColor};
+`;
+const Button = styled.span`
+  background-color: ${(props) => props.theme.accent};
+  border-radius: 4px;
+  padding: 4px 15px;
+  color: white;
+  font-weight: 600;
+`;
+const IconsContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const SLink = styled(Link)`
+ color: ${(props) => props.theme.fontColor};
 `;
 
 function Header() {
     const history = useHistory();
     const isLoggedIn = useReactiveVar(isLoggedInVar);
+    const { data } = useUser();
     return (
         <SHeader>
             <Wrapper>
@@ -53,13 +74,24 @@ function Header() {
                 </Column>
                 <Column>
                     {isLoggedIn ? (
-                        <>
+                        <IconsContainer>
                             <Icon>
-                                <FontAwesomeIcon icon={faUser} size="lg" />
+                                <FontAwesomeIcon icon={faHome} size="lg" />
+                            </Icon>
+                            <Icon>
+                                <FontAwesomeIcon icon={faCompass} size="lg" />
+                            </Icon>
+                            <Icon>
+                                <Avatar url={data?.me?.avatar} />
                             </Icon>
                             <LogoutBtn onClick={() => logUserOut(history)}>Log out</LogoutBtn>
-                        </>
-                    ) : null}
+                            <DarkmodeBtn />
+                        </IconsContainer>
+                    ) : (
+                        <SLink to={routes.home}>
+                            <Button>Login</Button>
+                        </SLink>
+                    )}
                 </Column>
             </Wrapper>
         </SHeader>
